@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { error } from 'protractor';
 import { Subscription } from 'rxjs';
+import { CarService } from '../shared/car/car.service';
 import { OwnerService } from '../shared/owner/owner.service';
 
 @Component({
@@ -17,6 +19,7 @@ export class OwnerEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private ownerService: OwnerService,
+    private carService: CarService
   ) {}
 
   ngOnInit() {
@@ -52,9 +55,16 @@ export class OwnerEditComponent implements OnInit {
   }
 
   remove(href) {
-    console.log('asdfsf', href);
     this.ownerService.remove(href).subscribe(result => {
-      this.goToList();
-    }, error => console.error(error));
+      this.carService.getAll().subscribe(data => {
+        data.forEach(car => {
+          if (car.ownerDni === this.owner.dni) {
+            this.carService.save({...car, ownerDni: null}).subscribe(() => {
+              this.goToList();
+            }, cleanError => console.log('Error while cleaning up:', cleanError));
+          }
+        });
+      });
+    }, removeError => console.error('Error while removing owner', removeError));
   }
 }
