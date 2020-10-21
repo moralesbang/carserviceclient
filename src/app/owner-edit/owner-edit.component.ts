@@ -60,10 +60,11 @@ export class OwnerEditComponent implements OnInit {
         data.forEach(car => {
           if (car.ownerDni === this.owner.dni) {
             this.carService.save({...car, ownerDni: null}).subscribe(() => {
-              this.goToList();
+              console.log('Success Cleaned!!!');
             }, cleanError => console.log('Error while cleaning up:', cleanError));
           }
         });
+        this.goToList();
       });
     }, removeError => console.error('Error while removing owner', removeError));
   }

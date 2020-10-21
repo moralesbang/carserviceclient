@@ -1,10 +1,13 @@
 <mat-card>
   <mat-card-title>Owner List</mat-card-title>
+  <a routerLink="/car-list">(Go to Car List)</a>
   <mat-card-content>
     <mat-list>
-      <mat-list-item *ngFor="let owner of owners">
+      <mat-list-item *ngFor="let owner of owners" class="list-item">
          <div class="owner">
-         <b><a [routerLink]="['/owner-edit', owner.id]">{{owner.name}}</a></b>
+         <mat-checkbox class="owner-name" [(ngModel)]="owner.checked" (change)="updateCheckedList()" color="primary">
+          <b><a [routerLink]="['/owner-edit', owner.id]">{{owner.name}}</a></b>
+        </mat-checkbox>
           <span class="owner__profession">{{owner.profession}}</span>
           <span class="owner__dni">{{owner.dni}}</span>
          </div>
@@ -12,5 +15,10 @@
     </mat-list>
   </mat-card-content>
 
-  <button mat-fab color="primary" [routerLink]="['/owner-add']">Add</button>
+  <mat-card-actions>
+    <button mat-fab color="primary" [routerLink]="['/owner-add']">Add</button>
+    <button mat-raised-button color="primary" [disabled]="!checkedOwners.length" type="button" (click)="removeSelected()">
+      Delete
+    </button>
+  </mat-card-actions>
 </mat-card>
