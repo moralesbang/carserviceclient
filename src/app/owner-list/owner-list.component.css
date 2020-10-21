@@ -1,0 +1,11 @@
+.owner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.owner__profession {}
+
+.owner__dni {
+  font-family: monospace;
+}

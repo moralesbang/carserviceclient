@@ -1,62 +1,53 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CarService } from '../shared/car/car.service';
-import { GiphyService } from '../shared/giphy/giphy.service';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { OwnerService } from '../shared/owner/owner.service';
 
 @Component({
-  selector: 'app-car-edit',
-  templateUrl: './car-edit.component.html',
-  styleUrls: ['./car-edit.component.css']
+  selector: 'app-owner-edit',
+  templateUrl: './owner-edit.component.html',
+  styleUrls: ['./owner-edit.component.css']
 })
-export class CarEditComponent implements OnInit, OnDestroy {
-  car: any = {};
-
+export class OwnerEditComponent implements OnInit {
+  owner: any = {};
   sub: Subscription;
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private carService: CarService,
-              private giphyService: GiphyService) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private ownerService: OwnerService,
+  ) {}
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
+
       if (id) {
-        this.carService.get(id).subscribe((car: any) => {
-          if (car) {
-            this.car = car;
-            this.car.href = car._links.self.href;
-            this.giphyService.get(car.name).subscribe(url => car.giphyUrl = url);
+        this.ownerService.get(id).subscribe((owner: any) => {
+          if (owner) {
+            this.owner = owner;
+            this.owner.href = owner._links.self.href;
           } else {
-            console.log(`Car with id '${id}' not found, returning to list`);
-            this.gotoList();
+            console.log(`Owner with id '${id}' not found, returning to list...`);
+            this.goToList();
           }
-        });
+        })
       }
-    });
+    })
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
-  gotoList() {
-    this.router.navigate(['/car-list']);
+  goToList() {
+    this.router.navigate(['/owner-list']);
   }
 
   save(form: NgForm) {
-    this.carService.save(form).subscribe(result => {
-      this.gotoList();
-    }, error => console.error(error));
-  }
-
-  remove(href) {
-    this.carService.remove(href).subscribe(result => {
-      this.gotoList();
-    }, error => console.error(error));
+    this.ownerService.save(form).subscribe(result => {
+      this.goToList();
+    }, error => console.log('[OWNER EDIT ERROR]:', error))
   }
 }
-
