@@ -1,27 +1,13 @@
-# CarServiceClient
+## Explicación del ejercicio
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.2.
+### Componenetes
 
-## Development server
+- card-list: Componente utilizado para listar los autos. Dentro de su lógica se cargan los autos desde la API al iniciar el montaje del componente.
+- card-edit: Formulario de creación y edición de autos.
+- owner-list: Componente utilizado listar los owner, donde se pueden realizar borrados multiples e ir a agregar o editar un nuevo owner.
+- owner-edit: Formulario para crear y editar owner.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Servicios
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- car-service: En este servicio se define la lógica para el CRUD de autos.
+- owner-service: Se definen las acciones del CRUD y la lógica de cada método, por ejemplo se define que para cuando un owner sea borrado los autos asociados son actualizados dejando un `ownerDni` en `null`.
