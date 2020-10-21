@@ -29,7 +29,7 @@ export class OwnerService {
     return result;
   }
 
-  remove(ownerId: string): Observable<any>  {
-    return this.http.delete(this.OWNERS_API + '/' + ownerId );
+  remove(href: string) {
+    return this.http.delete(href);
   }
 }

@@ -50,4 +50,11 @@ export class OwnerEditComponent implements OnInit {
       this.goToList();
     }, error => console.log('[OWNER EDIT ERROR]:', error))
   }
+
+  remove(href) {
+    console.log('asdfsf', href);
+    this.ownerService.remove(href).subscribe(result => {
+      this.goToList();
+    }, error => console.error(error));
+  }
 }
